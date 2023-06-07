@@ -1,4 +1,4 @@
-package Helper;
+package Helper.Printer;
 
 import Account.Account;
 import Group.AccountGroup;
@@ -7,7 +7,11 @@ import Interface.AccountComponent;
 import java.util.List;
 
 public class AccountGroupsPrinter {
-    public void print(List<AccountComponent> accountGroups) {
+    public boolean printIfAny(List<AccountComponent> accountGroups) {
+        if (accountGroups.size() == 0) {
+            System.out.println("You have not created any");
+            return false;
+        }
         System.out.println("Account Groups:");
         for (int i = 0; i < accountGroups.size(); i++) {
             if (accountGroups.get(i) instanceof AccountGroup accountGroup) {
@@ -15,6 +19,7 @@ public class AccountGroupsPrinter {
                 printingContents(accountGroup, 1);
             }
         }
+        return true;
     }
 
     public boolean printWithExcludingIfAnyLeft(List<AccountComponent> accountGroups, AccountGroup chosenEntryAccountGroup) {

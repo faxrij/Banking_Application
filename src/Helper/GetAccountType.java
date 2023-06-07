@@ -9,8 +9,9 @@ public class GetAccountType {
             case 4 -> "ForeignCurrencyAccountEURWithInterest";
             case 5 -> "ForeignCurrencyAccountUSDWithInterest";
             case 6 -> "ForeignCurrencyAccountUSDWithoutInterest";
-            case 7 -> "GoldAccount";
-            case 8 -> "InvestmentAccount";
+            case 7 -> "GoldAccountWithoutInterest";
+            case 8 -> "GoldAccountWithInterest";
+            case 9 -> "InvestmentAccount";
             default -> null;
         };
     }

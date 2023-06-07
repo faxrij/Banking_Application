@@ -32,5 +32,4 @@ public class UpdateForeignAccountInterestRates {
             updateForeignCurrencyInterestRatesRecursive(groupAccountComponents, currency, newInterestRate);
         }
     }
-
 }

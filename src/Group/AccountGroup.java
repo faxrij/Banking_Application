@@ -1,18 +1,24 @@
 package Group;
 
 import Account.Account;
+import Bank.Bank;
+import Currency.Currency;
+import Currency.CurrencyRates;
 import Interface.AccountComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AccountGroup implements AccountComponent {
+    private final Bank bank;
     private final String groupName;
     private final List<AccountComponent> accountComponents;
 
-    public AccountGroup(String groupName) {
+    public AccountGroup(String groupName, Bank bank) {
         this.groupName = groupName;
         this.accountComponents = new ArrayList<>();
+        this.bank = bank;
     }
 
     public boolean containsAccount(Account account) {
@@ -50,6 +56,7 @@ public class AccountGroup implements AccountComponent {
     public String getGroupName() {
         return groupName;
     }
+
     public List<AccountComponent> getAccountComponents() {
         return accountComponents;
     }
@@ -73,18 +80,30 @@ public class AccountGroup implements AccountComponent {
 
     @Override
     public double getBalance() {
+        Map<Currency, CurrencyRates> currencyRates = bank.getCurrencyRates();
         double totalBalance = 0.0;
         for (AccountComponent accountComponent : accountComponents) {
-            totalBalance += accountComponent.getBalance();
+            if (accountComponent instanceof Account) {
+                Currency currency = ((Account) accountComponent).getCurrency();
+                CurrencyRates currencyRates1 = currencyRates.get(currency);
+                double amount = currencyRates1.getExchangeRate(Currency.TRY);
+                totalBalance += amount * accountComponent.getBalance();
+            }
         }
         return totalBalance;
     }
 
     @Override
     public double calculateFutureBalance(int daysLater) {
+        Map<Currency, CurrencyRates> currencyRates = bank.getCurrencyRates();
         double totalBalance = 0.0;
         for (AccountComponent accountComponent : accountComponents) {
-            totalBalance += accountComponent.calculateFutureBalance(daysLater);
+            if (accountComponent instanceof Account) {
+                Currency currency = ((Account) accountComponent).getCurrency();
+                CurrencyRates currencyRates1 = currencyRates.get(currency);
+                double amount = currencyRates1.getExchangeRate(Currency.TRY);
+                totalBalance += amount * accountComponent.calculateFutureBalance(daysLater);
+            }
         }
         return totalBalance;
     }

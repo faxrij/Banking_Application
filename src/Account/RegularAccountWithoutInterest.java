@@ -3,7 +3,7 @@ package Account;
 import Bank.Bank;
 import Currency.*;
 import Group.AccountGroup;
-import Helper.ExchangeHelper;
+import Helper.CommonOperation.CommonOperationsForWithoutInterestAccounts;
 import Interface.IDepositable;
 
 public class RegularAccountWithoutInterest extends Account implements IDepositable {
@@ -33,23 +33,29 @@ public class RegularAccountWithoutInterest extends Account implements IDepositab
 
     @Override
     public void exchangeToCurrency(Bank bank, Account targetAccount, double amount) {
-        if(targetAccount instanceof RegularAccountWithInterest){
-            mainOperation(bank, targetAccount, amount);
+        CommonOperationsForWithoutInterestAccounts commonOperationsForWithoutInterestAccounts = new CommonOperationsForWithoutInterestAccounts();
+        if (targetAccount instanceof RegularAccountWithInterest) {
+            commonOperationsForWithoutInterestAccounts.sendMoney(bank, targetAccount, amount, this, Currency.TRY);
             return;
         }
-        else {
-            if( !(targetAccount.getClass().getSimpleName().endsWith("WithoutInterest"))){
-                System.out.println("You cannot exchange with this Account");
-                return;
-            }
+
+        if (!(targetAccount.getClass().getSimpleName().endsWith("WithoutInterest"))) {
+            System.out.println("You cannot exchange with this Account");
+            return;
+
         }
-        mainOperation(bank, targetAccount, amount);
+        commonOperationsForWithoutInterestAccounts.sendMoney(bank, targetAccount, amount, this, Currency.TRY);
     }
 
-    private void mainOperation(Bank bank, Account targetAccount, double amount) {
-        CurrencyRates exchangeRates = bank.getCurrencyRates().get(Currency.TRY);
-        ExchangeHelper exchangeHelper = new ExchangeHelper();
-        double newBalance = exchangeHelper.exchange(exchangeRates, targetAccount, amount, getBalance(), getCurrency());
-        setBalance(newBalance);
+    @Override
+    public void setLastExchangeDay(int exchangeDay) {
+        // CAN BE IMPLEMENTED FOR FUTURE DEVELOPMENTS
     }
+
+//    private void mainOperation(Bank bank, Account targetAccount, double amount) {
+//        CurrencyRates exchangeRates = bank.getCurrencyRates().get(Currency.TRY);
+//        ExchangeHelper exchangeHelper = new ExchangeHelper();
+//        double newBalance = exchangeHelper.exchange(exchangeRates, targetAccount, amount, getBalance(), getCurrency());
+//        setBalance(newBalance);
+//    }
 }

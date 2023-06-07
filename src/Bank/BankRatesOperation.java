@@ -6,9 +6,10 @@ import java.util.Map;
 
 public class BankRatesOperation {
     public void setInitialInterestRates(Map<Currency, Double> interestRates) {
-        interestRates.put(Currency.USD, 2.0);
-        interestRates.put(Currency.TRY, 1.0);
-        interestRates.put(Currency.EUR, 3.0);
+        interestRates.put(Currency.USD, 0.04);
+        interestRates.put(Currency.TRY, 0.01);
+        interestRates.put(Currency.EUR, 0.05);
+        interestRates.put(Currency.XAU, 0.1);
     }
 
     public void setInitialCurrencyRates(Map<Currency, CurrencyRates> currencyRates) {
@@ -26,11 +27,11 @@ public class BankRatesOperation {
         eurRates.setExchangeRate(Currency.TRY, 8.5);
         currencyRates.put(Currency.EUR, eurRates);
 
-        // AUX to other currencies
-        CurrencyRates auxRates = new CurrencyRates();
-        auxRates.setExchangeRate(Currency.XAU, 1);
-        auxRates.setExchangeRate(Currency.TRY, 1352.36);
-        currencyRates.put(Currency.XAU, auxRates);
+        // XAU to other currencies
+        CurrencyRates xauRates = new CurrencyRates();
+        xauRates.setExchangeRate(Currency.XAU, 1);
+        xauRates.setExchangeRate(Currency.TRY, 1352.36);
+        currencyRates.put(Currency.XAU, xauRates);
 
         // TL to other currencies
         CurrencyRates tlRates = new CurrencyRates();

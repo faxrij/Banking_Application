@@ -1,4 +1,4 @@
-package MenuHandler;
+package MenuHandler.Handler;
 
 import Bank.Bank;
 

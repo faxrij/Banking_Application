@@ -1,5 +1,6 @@
 package Client;
 
+import Bank.Bank;
 import Group.AccountGroup;
 import Interface.AccountComponent;
 
@@ -7,9 +8,9 @@ public class Client {
     private final String name;
     private AccountGroup rootAccountGroup;
 
-    public Client(String name) {
+    public Client(Bank bank, String name) {
         this.name = name;
-        this.rootAccountGroup = new AccountGroup(name + "'s Root Account Group");
+        this.rootAccountGroup = new AccountGroup(name + "'s Root Account Group", bank);
 
     }
 

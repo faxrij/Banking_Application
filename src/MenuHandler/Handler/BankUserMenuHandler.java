@@ -1,10 +1,12 @@
-package MenuHandler;
+package MenuHandler.Handler;
 
 import Account.Account;
 import Bank.Bank;
 import Client.Client;
 import Currency.*;
 import Interface.AccountComponent;
+import MenuHandler.Menu.BankUserMenu;
+import Stock.Stock;
 
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +17,8 @@ public class BankUserMenuHandler {
     public void displayBankUserMenu(Bank bank) {
         System.out.println("Bank User Menu");
         while (true) {
-            printBankUserOptions();
+            BankUserMenu bankUserMenu = new BankUserMenu();
+            bankUserMenu.printBankUserOptions();
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -23,7 +26,8 @@ public class BankUserMenuHandler {
                 case 1 -> setDayOption(bank);
                 case 2 -> setInterestRatesOption(bank);
                 case 3 -> setCurrencyRatesOption(bank);
-                case 4 -> {
+                case 4 -> createStocks(bank);
+                case 5 -> {
                     return; // Exit the menu and return to the main menu
                 }
                 default -> System.out.println("Invalid choice. Please try again.");
@@ -31,13 +35,19 @@ public class BankUserMenuHandler {
         }
     }
 
-    private void printBankUserOptions() {
-        System.out.println("1. Set Day");
-        System.out.println("2. Set Interest Rates");
-        System.out.println("3. Set Currency Rates");
-        System.out.println("4. Back to Main Menu");
-        System.out.print("Enter your choice: ");
+    private void createStocks(Bank bank) {
+        System.out.println("Stock Creation");
+        System.out.println("Enter name of the stock that you want to create :");
+
+        String stockName = scanner.nextLine();
+
+        System.out.println("Enter price of stock:");
+        double stockPrice = scanner.nextDouble();
+
+        Stock stock = new Stock(stockName, stockPrice);
+        bank.addStock(stock);
     }
+
 
     private void setDayOption(Bank bank) {
         System.out.print("Enter the new day: ");

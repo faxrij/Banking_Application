@@ -1,7 +1,7 @@
 package Main;
 
 import Bank.Bank;
-import MenuHandler.MainMenuHandler;
+import MenuHandler.Handler.MainMenuHandler;
 
 public class Main {
     public static void main(String[] args) {

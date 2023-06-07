@@ -74,4 +74,5 @@ public abstract class Account implements AccountComponent {
     public abstract double calculateFutureBalance(int daysLater);
 
     public abstract void exchangeToCurrency(Bank bank, Account targetAccount, double amount);
+    public abstract void setLastExchangeDay(int exchangeDay);
 }

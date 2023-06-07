@@ -4,9 +4,11 @@ import Account.Account;
 import Bank.Bank;
 import Currency.*;
 import Group.AccountGroup;
+import Helper.CommonOperation.CommonOperationsForWithInterestAccounts;
 
 public class ForeignCurrencyAccountUSDWithInterest extends Account {
     private int lastExchangeDay;
+
     public ForeignCurrencyAccountUSDWithInterest(Bank bank, String accountNumber, double interestRate, AccountGroup accountGroup) {
         super(Currency.USD, true, interestRate, accountNumber, accountGroup);
         lastExchangeDay = 0;
@@ -21,19 +23,28 @@ public class ForeignCurrencyAccountUSDWithInterest extends Account {
 
     @Override
     public void exchangeToCurrency(Bank bank, Account targetAccount, double amount) {
-        if(lastExchangeDay>=bank.getCurrentDate()) {
-            System.out.println("You cannot exchange TODAY, move TIME forward");
+        CommonOperationsForWithInterestAccounts commonOperationsForWithInterestAccounts = new CommonOperationsForWithInterestAccounts();
+
+        if (commonOperationsForWithInterestAccounts.checkIfAnyTransactionsToday(bank, lastExchangeDay)) {
             return;
         }
-        if (!(targetAccount.getClass().getSimpleName().equals("ForeignCurrencyAccountUSDWithoutInterest"))) {
-            System.out.println("You can only exchange between Account -> USD Without Interest");
+        if (!(targetAccount instanceof ForeignCurrencyAccountUSDWithoutInterest || targetAccount instanceof ForeignCurrencyAccountUSDWithInterest)) {
+            System.out.println("You can only exchange between Regular Account");
             return;
         }
-        double balance = getBalance() - amount;
-        setBalance(balance);
-        targetAccount.deposit(amount);
-        System.out.println("Exchanged " + amount + " from" + getClass().getSimpleName() + " to " + targetAccount.getClass().getSimpleName()
-                + " successful");
-        lastExchangeDay = bank.getCurrentDate();
+        commonOperationsForWithInterestAccounts.sendMoney(bank, targetAccount, amount, getBalance(), this);
     }
+
+    public void setLastExchangeDay(int lastExchangeDay) {
+        this.lastExchangeDay = lastExchangeDay;
+    }
+
+//    private void mainOperation(Bank bank, Account targetAccount, double amount) {
+//        double balance = getBalance() - amount;
+//        setBalance(balance);
+//        targetAccount.deposit(amount);
+//        System.out.println("Exchanged " + amount + " from" + getClass().getSimpleName() + " to " + targetAccount.getClass().getSimpleName()
+//                + " successful");
+//        lastExchangeDay = bank.getCurrentDate();
+//    }
 }

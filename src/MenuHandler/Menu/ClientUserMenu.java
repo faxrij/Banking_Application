@@ -1,4 +1,4 @@
-package MenuHandler;
+package MenuHandler.Menu;
 
 public class ClientUserMenu {
     public void mainMenu() {

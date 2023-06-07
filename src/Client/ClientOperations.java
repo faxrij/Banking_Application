@@ -1,5 +1,6 @@
 package Client;
 
+import Bank.Bank;
 import Currency.Currency;
 
 import java.util.List;
@@ -21,9 +22,9 @@ public class ClientOperations {
         }
     }
 
-    public Client createClient(String clientName, List<Client> clients) {
+    public Client createClient(String clientName, List<Client> clients, Bank bank) {
         if (isClientNameValid(clientName)) {
-            Client newClient = new Client(clientName);
+            Client newClient = new Client(bank, clientName);
             clients.add(newClient);
 
             System.out.println("Client created successfully: " + clientName);

@@ -5,6 +5,7 @@ import Client.ClientOperations;
 import Client.Client;
 import Currency.Currency;
 import Currency.CurrencyRates;
+import Stock.Stock;
 
 import java.util.*;
 
@@ -18,8 +19,7 @@ public class Bank {
     private Map<Currency, CurrencyRates> currencyRates;
 
     private Map<Currency, Double> interestRates;
-
-    private static final Scanner scanner = new Scanner(System.in);
+    private List<Stock> stocks;
 
     public Bank() {
         clients = new ArrayList<>();
@@ -28,6 +28,7 @@ public class Bank {
         accountOperations = new AccountOperations(this);
         currencyRates = new HashMap<>();
         interestRates = new HashMap<>();
+        stocks = new ArrayList<Stock>();
         currentDate = 1;
 
         BankRatesOperation bankRatesOperation = new BankRatesOperation();
@@ -78,7 +79,7 @@ public class Bank {
     }
 
     public void createClient(String clientName) {
-        currentClient = clientOperations.createClient(clientName, clients);
+        currentClient = clientOperations.createClient(clientName, clients, this);
         if (currentClient!=null) {
             createAccount("RegularAccountWithoutInterest");
         }
@@ -108,5 +109,13 @@ public class Bank {
 
     public Client getCurrentClient() {
         return currentClient;
+    }
+
+    public void addStock(Stock stock) {
+        stocks.add(stock);
+    }
+
+    public List<Stock> getStocks() {
+        return stocks;
     }
 }

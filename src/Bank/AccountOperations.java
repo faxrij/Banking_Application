@@ -7,6 +7,9 @@ import Factory.Foreign.ForeignCurrencyAccountEURWithInterestFactory;
 import Factory.Foreign.ForeignCurrencyAccountEURWithoutInterestFactory;
 import Factory.Foreign.ForeignCurrencyAccountUSDWithInterestFactory;
 import Factory.Foreign.ForeignCurrencyAccountUSDWithoutInterestFactory;
+import Factory.GoldAccountWithInterestFactory;
+import Factory.GoldAccountWithoutInterestFactory;
+import Factory.InvestmentAccountFactory;
 import Factory.Regular.RegularAccountWithInterestFactory;
 import Factory.Regular.RegularAccountWithoutInterestFactory;
 import Group.AccountGroup;
@@ -36,13 +39,16 @@ public class AccountOperations {
                     account = createAccountFactory.createAccount(bank, new ForeignCurrencyAccountUSDWithoutInterestFactory(), rootGroup);
             case "ForeignCurrencyAccountUSDWithInterest" ->
                     account = createAccountFactory.createAccount(bank, new ForeignCurrencyAccountUSDWithInterestFactory(getInterestRate(Currency.USD)), rootGroup);
+            case "GoldAccountWithoutInterest" ->
+                    account = createAccountFactory.createAccount(bank, new GoldAccountWithoutInterestFactory(), rootGroup);
+            case "GoldAccountWithInterest" ->
+                    account = createAccountFactory.createAccount(bank, new GoldAccountWithInterestFactory(getInterestRate(Currency.XAU)), rootGroup);
+            case "InvestmentAccount" ->
+                    account = createAccountFactory.createAccount(bank, new InvestmentAccountFactory(), rootGroup);
+
             default -> System.out.println("Invalid account type.");
         }
         return account;
-    }
-
-    public boolean isValidAccountIndex(int accountIndex, int totalAccounts) {
-        return accountIndex >= 0 && accountIndex < totalAccounts;
     }
 
     private double getInterestRate(Currency currency) {

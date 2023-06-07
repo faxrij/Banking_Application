@@ -1,11 +1,14 @@
-package MenuHandler;
+package MenuHandler.Handler;
 
 import Bank.Bank;
 import Bank.GetAccountGroups;
 import Group.AccountGroup;
-import Helper.AccountGroupsPrinter;
+import Helper.Printer.AccountGroupsPrinter;
 import Helper.GetAccountType;
 import Interface.AccountComponent;
+import MenuHandler.Menu.AccountInteractionMenu;
+import MenuHandler.Menu.AccountTypeMenu;
+import MenuHandler.Menu.ClientUserMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,9 @@ public class ClientUserMenuHandler {
         List<AccountComponent> accountGroups = new ArrayList<>(getAccountGroups.getAccountGroups(bank));
 
         AccountGroupsPrinter accountGroupsPrinter = new AccountGroupsPrinter();
-        accountGroupsPrinter.print(accountGroups);
+        if(!accountGroupsPrinter.printIfAny(accountGroups)) {
+            return;
+        }
 
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -63,7 +68,7 @@ public class ClientUserMenuHandler {
         if (accountGroupEmptyChecker(accountGroups)) return;
 
         AccountGroupsPrinter accountGroupsPrinter = new AccountGroupsPrinter();
-        accountGroupsPrinter.print(accountGroups);
+        accountGroupsPrinter.printIfAny(accountGroups);
     }
 
     private boolean accountGroupEmptyChecker(List<AccountComponent> accountGroups) {
@@ -79,7 +84,7 @@ public class ClientUserMenuHandler {
         System.out.print("Enter account group name: ");
         String groupName = scanner.nextLine();
 
-        AccountComponent accountComponent = new AccountGroup(groupName);
+        AccountComponent accountComponent = new AccountGroup(groupName, bank);
         bank.getCurrentClient().addAccountComponent(accountComponent);
     }
 
