@@ -4,24 +4,11 @@ import Bank.Bank;
 import Currency.*;
 import Group.AccountGroup;
 import Helper.CommonOperation.CommonOperationsForWithoutInterestAccounts;
-import Interface.IDepositable;
 
-public class RegularAccountWithoutInterest extends Account implements IDepositable {
+public class RegularAccountWithoutInterest extends Account {
 
     public RegularAccountWithoutInterest(String accountNumber, AccountGroup accountGroup) {
         super(Currency.TRY, false, accountNumber, accountGroup);
-    }
-
-    @Override
-    public void depositMoney(double amount) {
-        if (amount <= 0) {
-            System.out.println("Invalid deposit amount. Amount must be greater than zero.");
-            return;
-        }
-
-        // Update the balance
-        deposit(getBalance() + amount);
-        System.out.println("Deposit successful. New balance: " + getBalance());
     }
 
     @Override
