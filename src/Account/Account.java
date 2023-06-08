@@ -14,7 +14,7 @@ public abstract class Account implements AccountComponent {
 
     private final String accountNumber;
     private double balance;
-    private AccountGroup rootAccountGroup;
+    private final AccountGroup rootAccountGroup;
 
 
     public Account(Currency currency, boolean hasInterest, String accountNumber, AccountGroup rootAccountGroup) {
@@ -23,10 +23,6 @@ public abstract class Account implements AccountComponent {
         this.accountNumber = accountNumber;
         this.balance = 0.0;
         this.rootAccountGroup = rootAccountGroup;
-    }
-
-    public AccountGroup getRootAccountGroup() {
-        return rootAccountGroup;
     }
 
     public boolean isHasInterest() {

@@ -23,13 +23,6 @@ public class ForeignCurrencyAccountUSDWithoutInterest extends Account {
         commonOperationsForWithoutInterestAccounts.sendMoney(bank, targetAccount, amount, this, Currency.EUR);
     }
 
-//    private void mainOperation(Bank bank, Account targetAccount, double amount) {
-//        CurrencyRates exchangeRates = bank.getCurrencyRates().get(Currency.EUR);
-//        ExchangeHelper exchangeHelper = new ExchangeHelper();
-//        double newBalance = exchangeHelper.exchange(exchangeRates, targetAccount, amount, getBalance(), getCurrency());
-//        setBalance(newBalance);
-//    }
-
     @Override
     public double calculateFutureBalance(int daysLater) {
         double futureBalance = getBalance();

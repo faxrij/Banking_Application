@@ -11,6 +11,7 @@ public class CommonOperationsForWithoutInterestAccounts {
         CurrencyRates exchangeRates = bank.getCurrencyRates().get(wantedCurrency);
         ExchangeHelper exchangeHelper = new ExchangeHelper();
         double newBalance = exchangeHelper.exchange(exchangeRates, targetAccount, amount, account.getBalance(), account.getCurrency());
+        targetAccount.setLastExchangeDay(bank.getCurrentDate());
         account.setBalance(newBalance);
     }
 }

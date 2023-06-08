@@ -6,9 +6,10 @@ import Account.RegularAccountWithoutInterest;
 import Bank.Bank;
 import Helper.Printer.AccountDetailsPrinter;
 import Helper.CommonOperation.DepositOperation;
+import Helper.Printer.AccountListPrinter;
+import Helper.StockBuyer;
 import Interface.AccountComponent;
 import MenuHandler.Handler.AccountInteractionMenuHandler;
-import Stock.Stock;
 
 import java.util.List;
 import java.util.Scanner;
@@ -19,15 +20,10 @@ public class AccountInteractionMenu {
     public void displayAccountMenu(Bank bank, List<AccountComponent> accountComponentList) {
         System.out.println("Account Interaction Menu");
         System.out.println("Choose Account You Want to interact with");
-        int counter = 0;
-        for (AccountComponent accountComponent : accountComponentList) {
-            if (!(accountComponent instanceof Account)) {
-                counter++;
-                continue;
-            }
-            System.out.println(counter + " " + accountComponent.getClass().getSimpleName());
-            counter++;
-        }
+
+        AccountListPrinter accountListPrinter = new AccountListPrinter();
+        accountListPrinter.printer(accountComponentList);
+
         int accountIndex = scanner.nextInt();
         scanner.nextLine();
 
@@ -41,66 +37,70 @@ public class AccountInteractionMenu {
             return;
         }
 
-        System.out.println("1. Display Account Details");
-        System.out.println("2. Calculate Balance after N Days");
-        System.out.println("3. Move Account to Account Group");
-        System.out.println("4. Exchange");
+        CommonAccountInteractionMenu commonAccountInteractionMenu = new CommonAccountInteractionMenu();
+        commonAccountInteractionMenu.print();
 
         if (account instanceof RegularAccountWithoutInterest) {
             System.out.println("5. Deposit");
-        }
-
-        if (account instanceof InvestmentAccount) {
             System.out.println("6. Buy Stock");
         }
+
         System.out.println("0. Go Back");
 
         int choice = scanner.nextInt();
         scanner.nextLine();
 
+        choiceSelector(bank, accountComponentList, account, choice);
+
+    }
+
+    private void choiceSelector(Bank bank, List<AccountComponent> accountComponentList, Account account, int choice) {
         switch (choice) {
             case 1 -> displayAccountDetails(account);
             case 2 -> calculateBalanceAfterNDays(account);
             case 3 -> moveAccountToAccountGroup(account, accountComponentList);
             case 4 -> performExchange(bank, account, accountComponentList);
             case 5 -> {
-                if (account instanceof RegularAccountWithoutInterest) {
-                    performDeposit(account);
-                } else {
+                if (!(account instanceof RegularAccountWithoutInterest)) {
                     System.out.println("Deposits are only allowed for Regular Accounts without Interest.");
+                    return;
                 }
+                performDeposit(account);
             }
-            case 6 -> buyStock(bank, account);
+            case 6 -> {
+                if (!(account instanceof RegularAccountWithoutInterest)) {
+                    System.out.println("You can do this operation with Regular Account Without Interest");
+                    return;
+                }
+                buyStock(bank, account);
+            }
             case 0 -> System.out.println("Returning to previous menu...");
             default -> System.out.println("Invalid choice. Please try again.");
         }
-
     }
 
     private void buyStock(Bank bank, Account account) {
-        if (!(account instanceof InvestmentAccount)) {
-            System.out.println("Invalid input");
-            return;
-        }
-        List<Stock> stocks = bank.getStocks();
-        if (stocks.size()==0) {
-            System.out.println("No Stock Available Right Now.");
-            return;
-        }
-        int counter = 0;
-        for (Stock stock:stocks) {
-            System.out.println(counter + " " + stock.getName() + " " + stock.getValue() + " " + stock.getCurrency());
-            counter++;
-        }
-        System.out.println("Choose the Stock you want to buy");
-        int choice = scanner.nextInt();
+        List<AccountComponent> accountComponentList = bank.getCurrentClient().getRootAccountGroup().getAccountComponents();
+        InvestmentAccount investmentAccount;
+        investmentAccount = getInvestmentAccount(accountComponentList);
 
-        if (stocks.size() <= choice) {
-            System.out.println("Invalid input");
+        if (investmentAccount == null) {
+            System.out.println("You do not have Investment Account");
             return;
         }
-        Stock selectedStock = stocks.get(choice);
-        ((InvestmentAccount) account).buyStock(selectedStock);
+
+        StockBuyer stockBuyer = new StockBuyer();
+        stockBuyer.buy(bank, account, investmentAccount);
+    }
+
+    private InvestmentAccount getInvestmentAccount(List<AccountComponent> accountComponentList) {
+        for (AccountComponent accountComp : accountComponentList) {
+            if (!(accountComp instanceof InvestmentAccount)) {
+                continue;
+            }
+            return  (InvestmentAccount) accountComp;
+        }
+        return null;
     }
 
     private void performExchange(Bank bank, Account currentAccount, List<AccountComponent> accountComponentList) {
@@ -126,10 +126,8 @@ public class AccountInteractionMenu {
         account.calculateFutureBalance(nDays);
     }
 
-
     private void moveAccountToAccountGroup(Account account, List<AccountComponent> accountComponentList) {
         AccountInteractionMenuHandler accountInteractionMenuHandler = new AccountInteractionMenuHandler();
         accountInteractionMenuHandler.moveAccountToAccountGroup(account, accountComponentList);
     }
-
 }

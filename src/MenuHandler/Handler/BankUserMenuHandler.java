@@ -1,14 +1,12 @@
 package MenuHandler.Handler;
 
-import Account.Account;
 import Bank.Bank;
-import Client.Client;
 import Currency.*;
-import Interface.AccountComponent;
+import Helper.UpdateBalanceWhenDayUpdated;
 import MenuHandler.Menu.BankUserMenu;
+import MenuHandler.Menu.CurrencySelectMenu;
 import Stock.Stock;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class BankUserMenuHandler {
@@ -60,19 +58,8 @@ public class BankUserMenuHandler {
             return;
         }
 
-        List<Client> clients = bank.getClients();
-        for (Client client : clients) {
-            List<AccountComponent> accountComponents = client.getRootAccountGroup().getAccountComponents();
-            for (AccountComponent accountComponent : accountComponents) {
-                if (accountComponent instanceof Account account) {
-                    double futureBalance = account.calculateFutureBalance(newDay - bank.getCurrentDate());
-                    account.setBalance(futureBalance);
-                }
-            }
-        }
-
-        bank.setCurrentDate(newDay);
-        System.out.println("Day set successfully to: " + newDay);
+        UpdateBalanceWhenDayUpdated updateBalanceWhenDayUpdated = new UpdateBalanceWhenDayUpdated();
+        updateBalanceWhenDayUpdated.operation(bank, newDay);
     }
 
     private void setInterestRatesOption(Bank bank) {
@@ -91,28 +78,22 @@ public class BankUserMenuHandler {
         Currency currency = getCurrency();
         if (currency == null) return;
 
-        selectingCurrency();
+        CurrencySelectMenu currencySelectMenu = new CurrencySelectMenu();
+        currencySelectMenu.selectingCurrency();
 
         int choice2 = scanner.nextInt();
         scanner.nextLine();
 
-        Currency currency2;
-        switch (choice2) {
-            case 1 -> currency2 = Currency.EUR;
-            case 2 -> currency2 = Currency.USD;
-            case 3 -> currency2 = Currency.TRY;
-            default -> {
-                System.out.println("Invalid choice. Please try again.");
-                return;
-            }
-        }
+        Currency currency2 = getCurrency(choice2);
+
+        if (currency2 == null) return;
 
         if (currency.equals(currency2)) {
             System.out.println("You cannot choose same Currencies");
             return;
         }
 
-        System.out.println("Enter New Rate For " +currency.getDisplayName() + " - " + currency2.getDisplayName());
+        System.out.println("Enter New Rate For " + currency.getDisplayName() + " - " + currency2.getDisplayName());
 
         double newCurrencyRate = scanner.nextDouble();
         scanner.nextLine();
@@ -120,18 +101,25 @@ public class BankUserMenuHandler {
         CurrencyRates selectedCurrencyRates = bank.getCurrencyRates().get(currency);
         CurrencyRates currencyRates = bank.getCurrencyRates().get(currency2);
 
-        currencyRates.setExchangeRate(currency, 1/newCurrencyRate);
+        currencyRates.setExchangeRate(currency, 1 / newCurrencyRate);
         selectedCurrencyRates.setExchangeRate(currency2, newCurrencyRate);
 
         System.out.println("Currency rate set successfully to: " + newCurrencyRate);
     }
 
     private Currency getCurrency() {
-        selectingCurrency();
+        CurrencySelectMenu currencySelectMenu = new CurrencySelectMenu();
+        currencySelectMenu.selectingCurrency();
 
         int choice = scanner.nextInt();
         scanner.nextLine();
 
+        Currency currency;
+        currency = getCurrency(choice);
+        return currency;
+    }
+
+    private Currency getCurrency(int choice) {
         Currency currency;
         switch (choice) {
             case 1 -> currency = Currency.EUR;
@@ -143,13 +131,5 @@ public class BankUserMenuHandler {
             }
         }
         return currency;
-    }
-
-    private void selectingCurrency() {
-        System.out.println("Select a currency:");
-        System.out.println("1. EUR");
-        System.out.println("2. USD");
-        System.out.println("3. TRY");
-        System.out.print("Enter your choice: ");
     }
 }

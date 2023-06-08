@@ -10,16 +10,16 @@ import Stock.Stock;
 import java.util.*;
 
 public class Bank {
-    private List<Client> clients;
+    private final List<Client> clients;
     private Client currentClient;
     private final ClientOperations clientOperations;
     private final AccountOperations accountOperations;
     private int currentDate; //Like day 10 or 15 or 35, or 50 etc.
 
-    private Map<Currency, CurrencyRates> currencyRates;
+    private final Map<Currency, CurrencyRates> currencyRates;
 
-    private Map<Currency, Double> interestRates;
-    private List<Stock> stocks;
+    private final Map<Currency, Double> interestRates;
+    private final List<Stock> stocks;
 
     public Bank() {
         clients = new ArrayList<>();
@@ -28,7 +28,7 @@ public class Bank {
         accountOperations = new AccountOperations(this);
         currencyRates = new HashMap<>();
         interestRates = new HashMap<>();
-        stocks = new ArrayList<Stock>();
+        stocks = new ArrayList<>();
         currentDate = 1;
 
         BankRatesOperation bankRatesOperation = new BankRatesOperation();

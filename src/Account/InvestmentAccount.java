@@ -41,8 +41,4 @@ public class InvestmentAccount extends Account {
         stocks.add(stock);
         System.out.println(stock.getName() + " is bought");
     }
-
-    public void buyFund(String fundSymbol) {
-        // Buy a fund and update balance
-    }
 }

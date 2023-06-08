@@ -8,6 +8,7 @@ import Helper.CommonOperation.CommonOperationsForWithInterestAccounts;
 
 public class ForeignCurrencyAccountEURWithInterest extends Account {
     private int lastExchangeDay;
+
     public ForeignCurrencyAccountEURWithInterest(String accountNumber, double interestRate, AccountGroup accountGroup) {
         super(Currency.EUR, true, interestRate, accountNumber, accountGroup);
         lastExchangeDay = 0;
@@ -24,9 +25,9 @@ public class ForeignCurrencyAccountEURWithInterest extends Account {
     public void exchangeToCurrency(Bank bank, Account targetAccount, double amount) {
         CommonOperationsForWithInterestAccounts commonOperationsForWithInterestAccounts = new CommonOperationsForWithInterestAccounts();
 
-        if(commonOperationsForWithInterestAccounts.checkIfAnyTransactionsToday(bank, lastExchangeDay)){
+        if (commonOperationsForWithInterestAccounts.checkIfAnyTransactionsToday(bank, lastExchangeDay)) {
             return;
-        };
+        }
 
         if (!(targetAccount instanceof ForeignCurrencyAccountEURWithoutInterest || targetAccount instanceof ForeignCurrencyAccountEURWithInterest)) {
             System.out.println("You can only exchange between Regular Account");
@@ -34,15 +35,6 @@ public class ForeignCurrencyAccountEURWithInterest extends Account {
         }
         commonOperationsForWithInterestAccounts.sendMoney(bank, targetAccount, amount, getBalance(), this);
     }
-
-//    private void mainOperation(Bank bank, Account targetAccount, double amount) {
-//        double balance = getBalance() - amount;
-//        setBalance(balance);
-//        targetAccount.deposit(amount);
-//        System.out.println("Exchanged " + amount + " from" + getClass().getSimpleName() + " to " + targetAccount.getClass().getSimpleName()
-//                + " successful");
-//        lastExchangeDay = bank.getCurrentDate();
-//    }
 
     public void setLastExchangeDay(int lastExchangeDay) {
         this.lastExchangeDay = lastExchangeDay;

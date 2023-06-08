@@ -39,12 +39,4 @@ public class ForeignCurrencyAccountUSDWithInterest extends Account {
         this.lastExchangeDay = lastExchangeDay;
     }
 
-//    private void mainOperation(Bank bank, Account targetAccount, double amount) {
-//        double balance = getBalance() - amount;
-//        setBalance(balance);
-//        targetAccount.deposit(amount);
-//        System.out.println("Exchanged " + amount + " from" + getClass().getSimpleName() + " to " + targetAccount.getClass().getSimpleName()
-//                + " successful");
-//        lastExchangeDay = bank.getCurrentDate();
-//    }
 }

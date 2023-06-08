@@ -6,7 +6,7 @@ import Interface.AccountComponent;
 
 public class Client {
     private final String name;
-    private AccountGroup rootAccountGroup;
+    private final AccountGroup rootAccountGroup;
 
     public Client(Bank bank, String name) {
         this.name = name;

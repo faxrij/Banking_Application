@@ -51,11 +51,4 @@ public class RegularAccountWithoutInterest extends Account implements IDepositab
     public void setLastExchangeDay(int exchangeDay) {
         // CAN BE IMPLEMENTED FOR FUTURE DEVELOPMENTS
     }
-
-//    private void mainOperation(Bank bank, Account targetAccount, double amount) {
-//        CurrencyRates exchangeRates = bank.getCurrencyRates().get(Currency.TRY);
-//        ExchangeHelper exchangeHelper = new ExchangeHelper();
-//        double newBalance = exchangeHelper.exchange(exchangeRates, targetAccount, amount, getBalance(), getCurrency());
-//        setBalance(newBalance);
-//    }
 }

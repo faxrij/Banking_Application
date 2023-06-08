@@ -1,6 +1,7 @@
 package MenuHandler.Handler;
 
 import Bank.Bank;
+import MenuHandler.Menu.UserSelectorMenu;
 
 import java.util.Scanner;
 
@@ -10,10 +11,8 @@ public class MainMenuHandler {
     public void displayMenu(Bank bank) {
         System.out.println("Banking Application Menu");
         while (true) {
-            System.out.println("1. Bank User");
-            System.out.println("2. Client User");
-            System.out.println("3. Exit");
-            System.out.print("Enter your choice: ");
+            UserSelectorMenu userSelectorMenu = new UserSelectorMenu();
+            userSelectorMenu.print();
 
             int choice = scanner.nextInt();
             scanner.nextLine();

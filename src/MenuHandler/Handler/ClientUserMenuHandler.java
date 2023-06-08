@@ -49,7 +49,7 @@ public class ClientUserMenuHandler {
         List<AccountComponent> accountGroups = new ArrayList<>(getAccountGroups.getAccountGroups(bank));
 
         AccountGroupsPrinter accountGroupsPrinter = new AccountGroupsPrinter();
-        if(!accountGroupsPrinter.printIfAny(accountGroups)) {
+        if (!accountGroupsPrinter.printIfAny(accountGroups)) {
             return;
         }
 
@@ -62,7 +62,7 @@ public class ClientUserMenuHandler {
     }
 
     private void seeAccountGroups(Bank bank) {
-        if(checkingIfCurrentClientExists(bank)) return;
+        if (checkingIfCurrentClientExists(bank)) return;
         GetAccountGroups getAccountGroups = new GetAccountGroups();
         List<AccountComponent> accountGroups = getAccountGroups.getAccountGroups(bank);
         if (accountGroupEmptyChecker(accountGroups)) return;
@@ -72,7 +72,7 @@ public class ClientUserMenuHandler {
     }
 
     private boolean accountGroupEmptyChecker(List<AccountComponent> accountGroups) {
-        if (accountGroups==null) {
+        if (accountGroups == null) {
             System.out.println("No account groups found.");
             return true;
         }
@@ -89,7 +89,7 @@ public class ClientUserMenuHandler {
     }
 
     private boolean checkingIfCurrentClientExists(Bank bank) {
-        if (bank.getCurrentClient()==null) {
+        if (bank.getCurrentClient() == null) {
             System.out.println("You have not created any client");
             return true;
         }
@@ -98,7 +98,7 @@ public class ClientUserMenuHandler {
 
     private void accountInteractionOption(Bank bank) {
         AccountInteractionMenu accountInteractionMenu = new AccountInteractionMenu();
-        if(bank.getCurrentClient()==null) {
+        if (bank.getCurrentClient() == null) {
             System.out.println("Client is not created yet");
             return;
         }

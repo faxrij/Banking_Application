@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CurrencyRates {
-    private Map<Currency, Double> exchangeRates;
+    private final Map<Currency, Double> exchangeRates;
 
     public CurrencyRates() {
         exchangeRates = new HashMap<>();
