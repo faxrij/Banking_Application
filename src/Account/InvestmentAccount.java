@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InvestmentAccount extends Account {
-    private List<Stock> stocks;
+    private final List<Stock> stocks;
 
     public InvestmentAccount(String accountNumber, AccountGroup accountGroup) {
         super(null, false, accountNumber, accountGroup);
         stocks = new ArrayList<>();
-//        funds = new ArrayList<>();
     }
 
     @Override
@@ -40,5 +39,10 @@ public class InvestmentAccount extends Account {
     public void buyStock(Stock stock) {
         stocks.add(stock);
         System.out.println(stock.getName() + " is bought");
+    }
+
+    @Override
+    public double getBalance() {
+        return calculateFutureBalance(0); //return values of stocks
     }
 }

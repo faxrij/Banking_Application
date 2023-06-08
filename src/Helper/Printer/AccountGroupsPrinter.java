@@ -24,11 +24,12 @@ public class AccountGroupsPrinter {
 
     public boolean printWithExcludingIfAnyLeft(List<AccountComponent> accountGroups, AccountGroup chosenEntryAccountGroup) {
         System.out.println("Account Groups:");
+        if (accountGroups.size() == 1) {
+            return false;
+        }
         for (int i = 0; i < accountGroups.size(); i++) {
             if (accountGroups.get(i) instanceof AccountGroup accountGroup && !(accountGroups.get(i).equals(chosenEntryAccountGroup))) {
-                if (checking(chosenEntryAccountGroup, i, accountGroup)) {
-                    return false;
-                }
+                return !checking(chosenEntryAccountGroup, i, accountGroup);
             }
         }
         return true;

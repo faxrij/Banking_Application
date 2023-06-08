@@ -125,6 +125,7 @@ public class BankUserMenuHandler {
             case 1 -> currency = Currency.EUR;
             case 2 -> currency = Currency.USD;
             case 3 -> currency = Currency.TRY;
+            case 4 -> currency = Currency.XAU;
             default -> {
                 System.out.println("Invalid choice. Please try again.");
                 return null;

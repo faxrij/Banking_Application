@@ -20,7 +20,7 @@ public class ForeignCurrencyAccountUSDWithoutInterest extends Account {
             return;
         }
         CommonOperationsForWithoutInterestAccounts commonOperationsForWithoutInterestAccounts = new CommonOperationsForWithoutInterestAccounts();
-        commonOperationsForWithoutInterestAccounts.sendMoney(bank, targetAccount, amount, this, Currency.EUR);
+        commonOperationsForWithoutInterestAccounts.sendMoney(bank, targetAccount, amount, this, Currency.USD);
     }
 
     @Override

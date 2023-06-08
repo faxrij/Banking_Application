@@ -47,7 +47,7 @@ public class AccountGroupInteractionHandler {
     private void addAccountGroupIntoOther(Bank bank, List<AccountComponent> accountGroups, AccountGroup accountGroup) {
 
         AccountGroupsPrinter accountGroupsPrinter = new AccountGroupsPrinter();
-        if (accountGroupsPrinter.printWithExcludingIfAnyLeft(accountGroups, accountGroup)) {
+        if (!accountGroupsPrinter.printWithExcludingIfAnyLeft(accountGroups, accountGroup)) {
             System.out.println("You should create account groups!");
             return;
         }
