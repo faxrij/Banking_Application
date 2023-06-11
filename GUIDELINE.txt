@@ -1,0 +1,40 @@
+When you run the project, the Bank Application Menu appears.
+
+If you choose Bank User (1), Bank User Menu appears:
+
+    Set Day (1) by simply entering the number of the day other than today (default 1).
+    Set Interest Rate (2) by selecting the currency and  enter the value as interest/100 (0.05) etc.
+    Set Currency Rate (3) by selecting the first and second currency and set the rate as 1 first = {entered number} second
+    Create Stocks (4) by entering the name and price in TRY of the stock.
+    Back to Main Menu (5) turns to the Bank Application Menu.
+
+If you choose Client User (2), Client User Menu appears:
+
+    You cannot do anything if you have not created a client and if you go back to main menu and return to client the client will be same client as before.
+    Create Client (1): Enter the name and client created with default RegularAccountWithoutInterest.
+    Switch Client (2) by choosing the client from the list.
+    Create Account Group (3) by entering the name.
+    See Account Groups and their contents (4) prints the account groups with their content.
+    Create Account (5) by choosing from the list.
+    Display Clients (6) prints the clients.
+
+    Interact with Account (7): Choose the account you want to interact and another menu appears for it:
+
+        Display Account Details (1) prints the details.
+        Calculate Balance after N Days (2) you can calculate the balance for accounts with interest.
+        Move Account to Account Group (3) by choosing the group from the list.
+        Exchange (4) from this account to selected account with currency rate.
+        Deposit (5) money to RegularAccountWithoutInterest.
+        Buy Stock (6) if you have an Investment Account. This is for RegularAccountWithoutInterest.
+        Client User Menu (0) Client User Menu appears.
+
+    Interact with Account Groups (8): Choose the account group you want to interact and Account Group Interaction Menu appears:
+
+        Add this User Group Into an Other One (1) select the other group you want to move the group.
+        See Balance in TRY (2) displays the balance.
+        See Future Balance of Account Group in TRY (3) by entering the day.
+        Main Menu (4) Client User Menu appears.
+
+    Main Menu (9) Bank Application Menu appears.
+
+Exit (3) exits the application.
