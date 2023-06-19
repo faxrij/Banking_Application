@@ -13,14 +13,35 @@ import Factory.InvestmentAccountFactory;
 import Factory.Regular.RegularAccountWithInterestFactory;
 import Factory.Regular.RegularAccountWithoutInterestFactory;
 import Group.AccountGroup;
+import Interface.Factory.AccountFactory;
 
 public class AccountOperations {
     private final CreateAccountFactory createAccountFactory;
+    private final AccountFactory RegularAccountWithoutInterestFactory;
+    private final AccountFactory RegularAccountWithInterestFactory;
+    private final AccountFactory ForeignCurrencyAccountEURWithoutInterestFactory;
+    private final AccountFactory ForeignCurrencyAccountEURWithInterestFactory;
+    private final AccountFactory ForeignCurrencyAccountUSDWithoutInterestFactory;
+    private final AccountFactory ForeignCurrencyAccountUSDWithInterestFactory;
+    private final AccountFactory GoldAccountWithInterestFactory;
+    private final AccountFactory GoldAccountWithoutInterestFactory;
+    private final AccountFactory InvestmentAccountFactory;
+
+
     private final Bank bank;
 
     public AccountOperations(Bank bank) {
         createAccountFactory = new CreateAccountFactory();
         this.bank = bank;
+        RegularAccountWithoutInterestFactory = new RegularAccountWithoutInterestFactory();
+        RegularAccountWithInterestFactory = new RegularAccountWithInterestFactory(getInterestRate(Currency.TRY));
+        ForeignCurrencyAccountEURWithoutInterestFactory = new ForeignCurrencyAccountEURWithoutInterestFactory();
+        ForeignCurrencyAccountEURWithInterestFactory = new ForeignCurrencyAccountEURWithInterestFactory(getInterestRate(Currency.EUR));
+        ForeignCurrencyAccountUSDWithoutInterestFactory = new ForeignCurrencyAccountUSDWithoutInterestFactory();
+        ForeignCurrencyAccountUSDWithInterestFactory = new ForeignCurrencyAccountUSDWithInterestFactory(getInterestRate(Currency.USD));
+        GoldAccountWithInterestFactory = new GoldAccountWithInterestFactory(getInterestRate(Currency.XAU));
+        GoldAccountWithoutInterestFactory = new GoldAccountWithoutInterestFactory();
+        InvestmentAccountFactory = new InvestmentAccountFactory();
     }
 
     public Account createAccount(String accountType) {
@@ -28,23 +49,23 @@ public class AccountOperations {
         AccountGroup rootGroup = bank.getCurrentClient().getRootAccountGroup();
         switch (accountType) {
             case "RegularAccountWithoutInterest" ->
-                    account = createAccountFactory.createAccount(bank, new RegularAccountWithoutInterestFactory(), rootGroup);
+                    account = createAccountFactory.createAccount(bank, RegularAccountWithoutInterestFactory, rootGroup);
             case "RegularAccountWithInterest" ->
-                    account = createAccountFactory.createAccount(bank, new RegularAccountWithInterestFactory(getInterestRate(Currency.TRY)), rootGroup);
+                    account = createAccountFactory.createAccount(bank, RegularAccountWithInterestFactory, rootGroup);
             case "ForeignCurrencyAccountEURWithoutInterest" ->
-                    account = createAccountFactory.createAccount(bank, new ForeignCurrencyAccountEURWithoutInterestFactory(), rootGroup);
+                    account = createAccountFactory.createAccount(bank, ForeignCurrencyAccountEURWithoutInterestFactory, rootGroup);
             case "ForeignCurrencyAccountEURWithInterest" ->
-                    account = createAccountFactory.createAccount(bank, new ForeignCurrencyAccountEURWithInterestFactory(getInterestRate(Currency.EUR)), rootGroup);
+                    account = createAccountFactory.createAccount(bank, ForeignCurrencyAccountEURWithInterestFactory, rootGroup);
             case "ForeignCurrencyAccountUSDWithoutInterest" ->
-                    account = createAccountFactory.createAccount(bank, new ForeignCurrencyAccountUSDWithoutInterestFactory(), rootGroup);
+                    account = createAccountFactory.createAccount(bank, ForeignCurrencyAccountUSDWithoutInterestFactory, rootGroup);
             case "ForeignCurrencyAccountUSDWithInterest" ->
-                    account = createAccountFactory.createAccount(bank, new ForeignCurrencyAccountUSDWithInterestFactory(getInterestRate(Currency.USD)), rootGroup);
+                    account = createAccountFactory.createAccount(bank, ForeignCurrencyAccountUSDWithInterestFactory, rootGroup);
             case "GoldAccountWithoutInterest" ->
-                    account = createAccountFactory.createAccount(bank, new GoldAccountWithoutInterestFactory(), rootGroup);
+                    account = createAccountFactory.createAccount(bank, GoldAccountWithoutInterestFactory, rootGroup);
             case "GoldAccountWithInterest" ->
-                    account = createAccountFactory.createAccount(bank, new GoldAccountWithInterestFactory(getInterestRate(Currency.XAU)), rootGroup);
+                    account = createAccountFactory.createAccount(bank, GoldAccountWithInterestFactory, rootGroup);
             case "InvestmentAccount" ->
-                    account = createAccountFactory.createAccount(bank, new InvestmentAccountFactory(), rootGroup);
+                    account = createAccountFactory.createAccount(bank, InvestmentAccountFactory, rootGroup);
 
             default -> System.out.println("Invalid account type.");
         }
